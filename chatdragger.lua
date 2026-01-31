@@ -25,16 +25,32 @@ local function validateKey()
         return game:HttpGet(validationUrl, true)
     end)
     
-    if not success or not response then
-        game.Players.LocalPlayer:Kick("❌ Key validation failed. Invalid key or connection error.")
+    if not success then
+        game.Players.LocalPlayer:Kick("❌ Key validation failed. Connection error: " .. tostring(response))
         return false
     end
     
+    if not response or response == "" then
+        game.Players.LocalPlayer:Kick("❌ Key validation failed. No response from server.")
+        return false
+    end
+    
+    -- Try to decode JSON
     local success2, validation = pcall(function()
         return HttpService:JSONDecode(response)
     end)
     
-    if not success2 or not validation then
+    if not success2 then
+        -- If JSON decode fails, check if it's an error message
+        if string.find(response, "error", 1, true) or string.find(response, "Error", 1, true) then
+            game.Players.LocalPlayer:Kick("❌ Key validation error: " .. string.sub(response, 1, 100))
+        else
+            game.Players.LocalPlayer:Kick("❌ Key validation error. Invalid response format. Please contact support.")
+        end
+        return false
+    end
+    
+    if not validation then
         game.Players.LocalPlayer:Kick("❌ Key validation error. Please contact support.")
         return false
     end
