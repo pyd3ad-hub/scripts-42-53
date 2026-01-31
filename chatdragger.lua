@@ -41,11 +41,16 @@ local function validateKey()
     end)
     
     if not success2 then
-        -- If JSON decode fails, check if it's an error message
-        if string.find(response, "error", 1, true) or string.find(response, "Error", 1, true) then
-            game.Players.LocalPlayer:Kick("❌ Key validation error: " .. string.sub(response, 1, 100))
+        -- If JSON decode fails, the API might be returning HTML or an error page
+        -- Check if it's a Vercel error page or HTML
+        if string.find(response, "<!DOCTYPE", 1, true) or string.find(response, "<html", 1, true) then
+            game.Players.LocalPlayer:Kick("❌ Key validation error. API endpoint not found. Please check Vercel deployment.")
+        elseif string.find(response, "404", 1, true) or string.find(response, "NOT_FOUND", 1, true) then
+            game.Players.LocalPlayer:Kick("❌ Key validation error. API endpoint not deployed. Please deploy to Vercel.")
         else
-            game.Players.LocalPlayer:Kick("❌ Key validation error. Invalid response format. Please contact support.")
+            -- Show first 100 chars of response for debugging
+            local preview = string.sub(response, 1, 100)
+            game.Players.LocalPlayer:Kick("❌ Key validation error. Invalid response: " .. preview)
         end
         return false
     end
