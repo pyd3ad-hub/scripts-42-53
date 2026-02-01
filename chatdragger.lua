@@ -17,7 +17,7 @@ if hwid == "" then
     hwid = tostring(game:GetService("HttpService"):GenerateGUID(false))
 end
 
-local validationUrl = "https://webs-p0d5fm6fs-pyd3ad-hubs-projects.vercel.app/api/validate-key?script_key=" .. script_key .. "&hwid=" .. hwid
+local validationUrl = "https://42-53.com/api/validate-key?script_key=" .. script_key .. "&hwid=" .. hwid
 
 local function validateKey()
     local HttpService = game:GetService("HttpService")
@@ -44,9 +44,9 @@ local function validateKey()
         -- If JSON decode fails, the API might be returning HTML or an error page
         -- Check if it's a Vercel error page or HTML
         if string.find(response, "<!DOCTYPE", 1, true) or string.find(response, "<html", 1, true) then
-            game.Players.LocalPlayer:Kick("❌ Key validation error. API endpoint not found. Please check Vercel deployment.")
+            game.Players.LocalPlayer:Kick("❌ Key validation error. API endpoint not found. Please check API deployment.")
         elseif string.find(response, "404", 1, true) or string.find(response, "NOT_FOUND", 1, true) then
-            game.Players.LocalPlayer:Kick("❌ Key validation error. API endpoint not deployed. Please deploy to Vercel.")
+            game.Players.LocalPlayer:Kick("❌ Key validation error. API endpoint not deployed. Please check API service.")
         else
             -- Show first 100 chars of response for debugging
             local preview = string.sub(response, 1, 100)
