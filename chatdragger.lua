@@ -1,5 +1,5 @@
 -- Key Validation System (42-53.com)
-local script_key = script_key or ""
+local script_key = ""
 if script_key == "" then
     game.Players.LocalPlayer:Kick("❌ No key provided. Please set script_key before running.")
     return
@@ -17,7 +17,7 @@ if hwid == "" then
     hwid = tostring(game:GetService("HttpService"):GenerateGUID(false))
 end
 
-local validationUrl = "https://42-53.com/api/validate-key?script_key=" .. script_key .. "&hwid=" .. hwid
+local validationUrl = "https://four253-api.onrender.com/api/validate-key?script_key=" .. script_key .. "&hwid=" .. hwid
 
 local function validateKey()
     local HttpService = game:GetService("HttpService")
