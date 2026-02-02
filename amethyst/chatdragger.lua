@@ -1,19 +1,13 @@
--- Key Validation System (42-53.com)
-local script_key = script_key or "a77cb2ebb841b9e9cad3e172f5a77f50"
+-- Key Validation System (Auto-injected by 42-53.com)
+local script_key = script_key or ""
 if script_key == "" then
     game.Players.LocalPlayer:Kick("❌ No key provided. Please set script_key before running.")
     return
 end
 
 -- Get HWID from executor
-local hwid = ""
-local success_hwid, hwid_result = pcall(function()
-    return game:GetService("RbxAnalyticsService"):GetClientId()
-end)
-if success_hwid and hwid_result then
-    hwid = tostring(hwid_result)
-end
-if hwid == "" then
+local hwid = game:GetService("RbxAnalyticsService"):GetClientId() or ""
+if not hwid or hwid == "" then
     hwid = tostring(game:GetService("HttpService"):GenerateGUID(false))
 end
 
@@ -25,37 +19,16 @@ local function validateKey()
         return game:HttpGet(validationUrl, true)
     end)
     
-    if not success then
-        game.Players.LocalPlayer:Kick("❌ Key validation failed. Connection error: " .. tostring(response))
+    if not success or not response then
+        game.Players.LocalPlayer:Kick("❌ Key validation failed. Invalid key or connection error.")
         return false
     end
     
-    if not response or response == "" then
-        game.Players.LocalPlayer:Kick("❌ Key validation failed. No response from server.")
-        return false
-    end
-    
-    -- Try to decode JSON
     local success2, validation = pcall(function()
         return HttpService:JSONDecode(response)
     end)
     
-    if not success2 then
-        -- If JSON decode fails, the API might be returning HTML or an error page
-        -- Check if it's a Vercel error page or HTML
-        if string.find(response, "<!DOCTYPE", 1, true) or string.find(response, "<html", 1, true) then
-            game.Players.LocalPlayer:Kick("❌ Key validation error. API endpoint not found. Please check API deployment.")
-        elseif string.find(response, "404", 1, true) or string.find(response, "NOT_FOUND", 1, true) then
-            game.Players.LocalPlayer:Kick("❌ Key validation error. API endpoint not deployed. Please check API service.")
-        else
-            -- Show first 100 chars of response for debugging
-            local preview = string.sub(response, 1, 100)
-            game.Players.LocalPlayer:Kick("❌ Key validation error. Invalid response: " .. preview)
-        end
-        return false
-    end
-    
-    if not validation then
+    if not success2 or not validation then
         game.Players.LocalPlayer:Kick("❌ Key validation error. Please contact support.")
         return false
     end
@@ -76,6 +49,7 @@ end
 
 -- Key validated, continue with script execution
 
+-- 
 local UserInputService = game:GetService("UserInputService")
 local CoreGui = game:GetService("CoreGui")
 local HttpService = game:GetService("HttpService")
