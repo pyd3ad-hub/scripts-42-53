@@ -50,6 +50,7 @@ end
 -- Key validated, continue with script execution
 
 -- 
+-- 
 local UserInputService = game:GetService("UserInputService")
 local CoreGui = game:GetService("CoreGui")
 local HttpService = game:GetService("HttpService")
