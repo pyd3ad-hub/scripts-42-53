@@ -1,4 +1,3 @@
--- Key Validation System (Auto-injected by 42-53.com)
 local script_key = script_key or "a77cb2ebb841b9e9cad3e172f5a77f50"
 if script_key == "" then
     game.Players.LocalPlayer:Kick("❌ No key provided. Please set script_key before running.")
