@@ -1,4 +1,4 @@
-local script_key = script_key or "a77cb2ebb841b9e9cad3e172f5a77f50"
+local script_key = script_key or ""
 if script_key == "" then
     game.Players.LocalPlayer:Kick("❌ No key provided. Please set script_key before running.")
     return
