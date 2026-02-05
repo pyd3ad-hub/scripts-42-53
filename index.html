@@ -53,6 +53,8 @@
             align-items: center;
             text-align: center;
         }
+
+        /* Shooting Stars Background Animation */
         body::before {
             content: '';
             position: fixed;
@@ -63,6 +65,8 @@
             background: #000000;
             z-index: -2;
         }
+
+        /* Shooting Stars */
         .shooting-star {
             position: fixed;
             width: 2px;
@@ -114,6 +118,8 @@
                 opacity: 0;
             }
         }
+
+        /* Create multiple shooting stars with different paths */
         .shooting-star:nth-child(1) {
             left: 10%;
             top: -100px;
@@ -148,6 +154,8 @@
             animation-duration: 3.2s;
             animation-delay: 1.5s;
         }
+
+        /* Centered Content Styles */
         .center-content {
             position: relative;
             z-index: 1;
@@ -182,6 +190,8 @@
             margin-bottom: 2rem;
             line-height: 1.6;
         }
+
+        /* Updated Button Link Styles */
         .url-button {
             display: inline-block;
             padding: 0.75rem 2rem;
@@ -261,6 +271,8 @@
                 transform: translateY(0);
             }
         }
+
+        /* Responsive adjustments */
         @media (max-width: 768px) {
             .center-content {
                 padding: 2rem;
@@ -303,12 +315,14 @@
     </style>
 </head>
 <body>
+    <!-- Shooting Stars -->
     <div class="shooting-star"></div>
     <div class="shooting-star"></div>
     <div class="shooting-star"></div>
     <div class="shooting-star"></div>
     <div class="shooting-star"></div>
 
+    <!-- Centered Content -->
     <div class="center-content">
         <div class="glow-effect"></div>
         <h1>Script Manager</h1>
@@ -319,13 +333,16 @@
     </div>
 
     <script>
+        // Add more shooting stars dynamically for better effect
         document.addEventListener('DOMContentLoaded', function() {
             const shootingStarsContainer = document.querySelector('body');
             
+            // Add additional shooting stars
             for (let i = 6; i <= 15; i++) {
                 const star = document.createElement('div');
                 star.className = 'shooting-star';
                 
+                // Random position and timing
                 const left = Math.random() * 100;
                 const top = -Math.random() * 300 - 100;
                 const duration = 2 + Math.random() * 4;
@@ -339,6 +356,7 @@
                 shootingStarsContainer.appendChild(star);
             }
             
+            // Add subtle fade-in effect to content
             const content = document.querySelector('.center-content');
             setTimeout(() => {
                 content.style.opacity = '1';
